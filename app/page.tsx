@@ -64,25 +64,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Stats Section */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-32 border-y border-white/5 py-12">
-          {[
-            { label: "Precision Rate", value: "99.9%" },
-            { label: "Sync Latency", value: "< 12ms" },
-            { label: "Active Nodes", value: "2.4k" },
-            { label: "Clashes Prevented", value: "1.2M" },
-          ].map((stat, i) => (
-            <div key={i} className="text-center">
-              <div className="text-2xl md:text-3xl font-bold text-white mb-1">
-                {stat.value}
-              </div>
-              <div className="text-xs uppercase tracking-widest text-slate-500 font-semibold">
-                {stat.label}
-              </div>
-            </div>
-          ))}
-        </div>
-
         {/* Features Bento Grid */}
         <section className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-20">
           <FeatureCard

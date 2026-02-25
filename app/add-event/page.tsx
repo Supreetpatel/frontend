@@ -1,34 +1,142 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import {
   ChevronLeft,
   CalendarPlus,
   LayoutDashboard,
   Sparkles,
+  Calendar,
+  Clock,
+  MapPin,
 } from "lucide-react";
 import EventForm from "../../components/EventForm";
 import ResultCard from "../../components/ResultCard";
 
+const RESULT_STORAGE_KEY = "latest-clash-analysis";
+
+export interface EventData {
+  id: number;
+  name: string;
+  date: string;
+  start_time: string;
+  end_time: string;
+  venue: string;
+  organizer?: string;
+  category?: string;
+}
+
 export interface ResultData {
-  conflicting_event: {
-    id: number;
-    name: string;
-    date: string;
-    start_time: string;
-    end_time: string;
-    venue: string;
-    organizer?: string;
-    category?: string;
-  };
+  conflicting_event: EventData;
   severity: number;
   reason: string;
   suggestions: string[];
+  clash_breakdown: {
+    time_overlap: number;
+    venue: number;
+    organizer: number;
+    semantic: number;
+    total: number;
+  };
+  clash_candidates: {
+    event_id: number;
+    severity: number;
+    reason: string;
+    clash_breakdown: {
+      time_overlap: number;
+      venue: number;
+      organizer: number;
+      semantic: number;
+      total: number;
+    };
+  }[];
 }
 
 export default function AddEventPage() {
   const [result, setResult] = useState<ResultData | null>(null);
+  const [events, setEvents] = useState<EventData[]>([]);
+
+  const fetchEvents = useCallback(async () => {
+    try {
+      const response = await fetch("/api/events", { cache: "no-store" });
+      if (!response.ok) {
+        return;
+      }
+
+      const data = (await response.json()) as EventData[];
+      setEvents(Array.isArray(data) ? data : []);
+    } catch {
+      setEvents([]);
+    }
+  }, []);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadStoredResult = async () => {
+      const savedResult = window.localStorage.getItem(RESULT_STORAGE_KEY);
+      if (!savedResult || !isMounted) {
+        return;
+      }
+
+      try {
+        const parsedResult = JSON.parse(savedResult) as ResultData;
+        if (isMounted) {
+          setResult(parsedResult);
+        }
+      } catch {
+        window.localStorage.removeItem(RESULT_STORAGE_KEY);
+      }
+    };
+
+    const loadEvents = async () => {
+      try {
+        const response = await fetch("/api/events", { cache: "no-store" });
+        if (!response.ok || !isMounted) {
+          return;
+        }
+
+        const data = (await response.json()) as EventData[];
+        if (isMounted) {
+          setEvents(Array.isArray(data) ? data : []);
+        }
+      } catch {
+        if (isMounted) {
+          setEvents([]);
+        }
+      }
+    };
+
+    void loadStoredResult();
+    void loadEvents();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const handleResult = useCallback(
+    (data: ResultData) => {
+      setResult(data);
+      window.localStorage.setItem(RESULT_STORAGE_KEY, JSON.stringify(data));
+
+      if (data.reason === "No Clash") {
+        fetchEvents();
+      }
+    },
+    [fetchEvents],
+  );
+
+  const clashPercentageByEventId = useMemo(() => {
+    const clashMap = new Map<number, number>();
+
+    for (const candidate of result?.clash_candidates ?? []) {
+      clashMap.set(candidate.event_id, candidate.severity);
+    }
+
+    return clashMap;
+  }, [result]);
 
   return (
     <div className="min-h-screen bg-[#020617] text-slate-200 selection:bg-blue-500/30 font-sans pb-20">
@@ -79,9 +187,7 @@ export default function AddEventPage() {
           <div className="absolute -top-24 -right-24 w-48 h-48 bg-blue-500/10 blur-3xl rounded-full" />
 
           <div className="relative z-10">
-            <EventForm
-              onResult={(data: unknown) => setResult(data as ResultData)}
-            />
+            <EventForm onResult={handleResult} />
           </div>
         </div>
 
@@ -101,6 +207,49 @@ export default function AddEventPage() {
             </div>
           </div>
         )}
+
+        <div className="mt-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
+          <div className="flex items-center gap-2 mb-6 px-2">
+            <Sparkles size={20} className="text-blue-400" />
+            <h2 className="font-bold text-white uppercase tracking-widest text-sm">
+              All Stored Events
+            </h2>
+          </div>
+
+          <div className="bg-slate-900/40 backdrop-blur-xl border border-white/5 rounded-3xl p-5 md:p-6">
+            {events.length === 0 ? (
+              <p className="text-slate-400 text-sm">No events stored yet.</p>
+            ) : (
+              <div className="grid gap-3">
+                {events.map((event) => (
+                  <div
+                    key={event.id}
+                    className="rounded-xl border border-white/10 bg-slate-950/40 px-4 py-3"
+                  >
+                    <div className="flex items-center justify-between gap-3">
+                      <h3 className="text-white font-semibold">{event.name}</h3>
+                      <span className="text-xs font-semibold text-blue-300 bg-blue-500/10 border border-blue-500/20 px-2 py-1 rounded-md">
+                        Clash: {clashPercentageByEventId.get(event.id) ?? 0}%
+                      </span>
+                    </div>
+                    <div className="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-sm text-slate-400">
+                      <span className="flex items-center gap-1.5">
+                        <Calendar size={14} /> {event.date}
+                      </span>
+                      <span className="flex items-center gap-1.5">
+                        <Clock size={14} /> {event.start_time} -{" "}
+                        {event.end_time}
+                      </span>
+                      <span className="flex items-center gap-1.5">
+                        <MapPin size={14} /> {event.venue}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
       </main>
     </div>
   );

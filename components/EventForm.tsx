@@ -27,16 +27,18 @@ interface EventFormData {
   category?: string;
 }
 
+const initialForm: EventFormData = {
+  name: "",
+  date: "",
+  start_time: "",
+  end_time: "",
+  venue: "",
+  organizer: "",
+  category: "",
+};
+
 export default function EventForm({ onResult }: EventFormProps) {
-  const [form, setForm] = useState<EventFormData>({
-    name: "",
-    date: "",
-    start_time: "",
-    end_time: "",
-    venue: "",
-    organizer: "",
-    category: "",
-  });
+  const [form, setForm] = useState<EventFormData>(initialForm);
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState<{
     type: "success" | "error";
@@ -68,9 +70,18 @@ export default function EventForm({ onResult }: EventFormProps) {
     try {
       const res = await axios.post<ResultData>("/api/add-event", form);
       onResult(res.data);
+
+      const eventStored = res.data.reason === "No Clash";
+
+      if (eventStored) {
+        setForm(initialForm);
+      }
+
       setToast({
-        type: "success",
-        message: "Event submitted successfully.",
+        type: eventStored ? "success" : "error",
+        message: eventStored
+          ? "Event stored successfully. Form has been reset."
+          : "Conflict detected. Event was not stored.",
       });
     } catch (err) {
       console.error(err);
@@ -116,44 +127,71 @@ export default function EventForm({ onResult }: EventFormProps) {
 
       {/* Date & Time Row */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="relative group">
-          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-500 group-focus-within:text-blue-400">
-            <Calendar size={18} />
+        <div className="space-y-1.5">
+          <label
+            htmlFor="date"
+            className="block text-xs font-semibold uppercase tracking-wider text-slate-400"
+          >
+            Date
+          </label>
+          <div className="relative group">
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-500 group-focus-within:text-blue-400">
+              <Calendar size={18} />
+            </div>
+            <input
+              id="date"
+              name="date"
+              type="date"
+              value={form.date}
+              onChange={handleChange}
+              required
+              className="w-full bg-slate-950/50 border border-white/10 rounded-xl py-3 pl-11 pr-4 text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500/40 transition-all scheme-dark [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-80 hover:[&::-webkit-calendar-picker-indicator]:opacity-100"
+            />
           </div>
-          <input
-            name="date"
-            type="date"
-            value={form.date}
-            onChange={handleChange}
-            required
-            className="w-full bg-slate-950/50 border border-white/10 rounded-xl py-3 pl-11 pr-4 text-white focus:outline-none focus:ring-2 focus:ring-blue-500/40 transition-all scheme-dark"
-          />
         </div>
-        <div className="relative group">
-          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-500 group-focus-within:text-blue-400">
-            <Clock size={18} />
+        <div className="space-y-1.5">
+          <label
+            htmlFor="start_time"
+            className="block text-xs font-semibold uppercase tracking-wider text-slate-400"
+          >
+            Start Time
+          </label>
+          <div className="relative group">
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-500 group-focus-within:text-blue-400">
+              <Clock size={18} />
+            </div>
+            <input
+              id="start_time"
+              name="start_time"
+              type="time"
+              value={form.start_time}
+              onChange={handleChange}
+              required
+              className="w-full bg-slate-950/50 border border-white/10 rounded-xl py-3 pl-11 pr-4 text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500/40 transition-all scheme-dark [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-80 hover:[&::-webkit-calendar-picker-indicator]:opacity-100"
+            />
           </div>
-          <input
-            name="start_time"
-            type="time"
-            value={form.start_time}
-            onChange={handleChange}
-            required
-            className="w-full bg-slate-950/50 border border-white/10 rounded-xl py-3 pl-11 pr-4 text-white focus:outline-none focus:ring-2 focus:ring-blue-500/40 transition-all scheme-dark"
-          />
         </div>
-        <div className="relative group">
-          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-500 group-focus-within:text-blue-400">
-            <Clock size={18} />
+        <div className="space-y-1.5">
+          <label
+            htmlFor="end_time"
+            className="block text-xs font-semibold uppercase tracking-wider text-slate-400"
+          >
+            End Time
+          </label>
+          <div className="relative group">
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-500 group-focus-within:text-blue-400">
+              <Clock size={18} />
+            </div>
+            <input
+              id="end_time"
+              name="end_time"
+              type="time"
+              value={form.end_time}
+              onChange={handleChange}
+              required
+              className="w-full bg-slate-950/50 border border-white/10 rounded-xl py-3 pl-11 pr-4 text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500/40 transition-all scheme-dark [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-80 hover:[&::-webkit-calendar-picker-indicator]:opacity-100"
+            />
           </div>
-          <input
-            name="end_time"
-            type="time"
-            value={form.end_time}
-            onChange={handleChange}
-            required
-            className="w-full bg-slate-950/50 border border-white/10 rounded-xl py-3 pl-11 pr-4 text-white focus:outline-none focus:ring-2 focus:ring-blue-500/40 transition-all scheme-dark"
-          />
         </div>
       </div>
 
@@ -204,7 +242,7 @@ export default function EventForm({ onResult }: EventFormProps) {
       <button
         type="submit"
         disabled={loading}
-        className="w-full group relative flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-xl transition-all shadow-[0_0_20px_rgba(37,99,235,0.2)] disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden"
+        className="w-full group relative flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-xl transition-all shadow-[0_0_20px_rgba(37,99,235,0.2)] disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden cursor-pointer"
       >
         {loading ? (
           <Loader2 className="animate-spin" size={20} />
