@@ -31,12 +31,12 @@ export default function ResultCard({ data }: ResultCardProps) {
   };
 
   return (
-    <div className="max-w-xl mx-auto mt-8 animate-in fade-in zoom-in duration-500">
+    <div className="animate-in fade-in zoom-in duration-500">
       <div
         className={`relative overflow-hidden backdrop-blur-xl border rounded-4xl shadow-2xl ${
           hasTimeAndVenueClash
             ? "bg-amber-950/25 border-amber-500/35"
-            : "bg-slate-900/60 border-white/10"
+            : "bg-[#0b0b16]/80 border-white/8"
         }`}
       >
         {/* Top Header Section */}
@@ -51,12 +51,12 @@ export default function ResultCard({ data }: ResultCardProps) {
             <Terminal
               size={18}
               className={
-                hasTimeAndVenueClash ? "text-amber-300" : "text-blue-400"
+                hasTimeAndVenueClash ? "text-amber-300" : "text-violet-400"
               }
             />
             <span
               className={`text-xs font-mono font-bold tracking-[0.2em] uppercase ${
-                hasTimeAndVenueClash ? "text-amber-200" : "text-slate-400"
+                hasTimeAndVenueClash ? "text-amber-200" : "text-[#8080b0]"
               }`}
             >
               Analysis Results
@@ -79,20 +79,20 @@ export default function ResultCard({ data }: ResultCardProps) {
           {/* Severity Meter */}
           <div className="mb-8">
             <div className="flex justify-between items-end mb-2">
-              <span className="text-sm font-medium text-slate-400">
+              <span className="text-sm font-medium text-[#8080b0]">
                 Event Clash Percentage
               </span>
               <span
-                className={`text-3xl font-black ${data.severity > 70 ? "text-red-500" : "text-white"}`}
+                className={`text-3xl font-black ${data.severity > 70 ? "text-red-400" : "text-[#f0eeff]"}`}
               >
                 {data.severity}%
               </span>
             </div>
-            <p className="text-xs text-slate-500 mb-3">
+            <p className="text-xs text-[#5a5a7a] mb-3">
               Between your submitted event and{" "}
-              <b>{data.conflicting_event.name}</b>
+              <b className="text-[#a0a0c0]">{data.conflicting_event.name}</b>
             </p>
-            <div className="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
+            <div className="h-2 w-full bg-[#16162e] rounded-full overflow-hidden">
               <div
                 className={`h-full transition-all duration-1000 ease-out ${getProgressColor(data.severity)}`}
                 style={{ width: `${data.severity}%` }}
@@ -100,16 +100,16 @@ export default function ResultCard({ data }: ResultCardProps) {
             </div>
 
             <div className="mt-4 grid grid-cols-2 gap-2 text-xs">
-              <div className="rounded-lg border border-white/10 bg-slate-950/40 px-3 py-2 text-slate-300">
+              <div className="rounded-lg border border-violet-500/10 bg-violet-950/20 px-3 py-2 text-[#9090c0]">
                 Time overlap: {data.clash_breakdown.time_overlap}%
               </div>
-              <div className="rounded-lg border border-white/10 bg-slate-950/40 px-3 py-2 text-slate-300">
+              <div className="rounded-lg border border-violet-500/10 bg-violet-950/20 px-3 py-2 text-[#9090c0]">
                 Venue match: {data.clash_breakdown.venue}%
               </div>
-              <div className="rounded-lg border border-white/10 bg-slate-950/40 px-3 py-2 text-slate-300">
+              <div className="rounded-lg border border-violet-500/10 bg-violet-950/20 px-3 py-2 text-[#9090c0]">
                 Organizer match: {data.clash_breakdown.organizer}%
               </div>
-              <div className="rounded-lg border border-white/10 bg-slate-950/40 px-3 py-2 text-slate-300">
+              <div className="rounded-lg border border-violet-500/10 bg-violet-950/20 px-3 py-2 text-[#9090c0]">
                 Name similarity: {data.clash_breakdown.semantic}%
               </div>
             </div>
@@ -120,13 +120,13 @@ export default function ResultCard({ data }: ResultCardProps) {
             className={`rounded-2xl p-5 border mb-6 ${
               hasTimeAndVenueClash
                 ? "bg-amber-500/10 border-amber-500/25"
-                : "bg-slate-950/50 border-white/5"
+                : "bg-[#0d0d1e]/60 border-white/6"
             }`}
           >
             <div className="flex items-start gap-4">
               <div
                 className={`p-2 rounded-lg ${
-                  hasTimeAndVenueClash ? "bg-amber-500/15" : "bg-slate-800"
+                  hasTimeAndVenueClash ? "bg-amber-500/15" : "bg-violet-900/40"
                 }`}
               >
                 <AlertTriangle
@@ -141,10 +141,10 @@ export default function ResultCard({ data }: ResultCardProps) {
                 />
               </div>
               <div>
-                <h3 className="text-white font-bold text-lg mb-1">
+                <h3 className="text-[#f0eeff] font-bold text-lg mb-1">
                   {data.conflicting_event.name}
                 </h3>
-                <div className="flex flex-wrap gap-4 text-sm text-slate-400">
+                <div className="flex flex-wrap gap-4 text-sm text-[#7070a0]">
                   <span className="flex items-center gap-1.5">
                     <Calendar size={14} /> {data.conflicting_event.date}
                   </span>
@@ -158,8 +158,8 @@ export default function ResultCard({ data }: ResultCardProps) {
 
           {/* Reason Section */}
           <div className="flex gap-3 mb-8">
-            <Info className="text-blue-400 shrink-0" size={20} />
-            <p className="text-slate-300 leading-relaxed italic">
+            <Info className="text-violet-400 shrink-0" size={20} />
+            <p className="text-[#a0a0c0] leading-relaxed italic">
               {data.reason}
             </p>
           </div>
@@ -175,7 +175,7 @@ export default function ResultCard({ data }: ResultCardProps) {
                 {data.suggestions.map((s: string, i) => (
                   <div
                     key={i}
-                    className="flex items-center gap-3 p-3 bg-white/5 border border-white/5 rounded-xl text-slate-300 hover:bg-white/10 transition-colors cursor-default group"
+                    className="flex items-center gap-3 p-3 bg-violet-500/5 border border-violet-500/10 rounded-xl text-[#b0b0d0] hover:bg-violet-500/10 transition-colors cursor-default group"
                   >
                     <CheckCircle2
                       size={16}

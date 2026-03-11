@@ -112,7 +112,7 @@ export default function EventForm({ onResult }: EventFormProps) {
 
       {/* Event Name */}
       <div className="relative group">
-        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-500 group-focus-within:text-blue-400 transition-colors">
+        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#4a4a6a] group-focus-within:text-violet-400 transition-colors">
           <Type size={18} />
         </div>
         <input
@@ -121,7 +121,7 @@ export default function EventForm({ onResult }: EventFormProps) {
           value={form.name}
           onChange={handleChange}
           required
-          className="w-full bg-slate-950/50 border border-white/10 rounded-xl py-3 pl-11 pr-4 text-white placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500/40 transition-all"
+          className="w-full bg-[#080812]/60 border border-white/8 rounded-xl py-3 pl-11 pr-4 text-[#f0eeff] placeholder:text-[#4a4a6a] focus:outline-none focus:ring-2 focus:ring-violet-500/35 focus:border-violet-500/40 transition-all"
         />
       </div>
 
@@ -130,12 +130,12 @@ export default function EventForm({ onResult }: EventFormProps) {
         <div className="space-y-1.5">
           <label
             htmlFor="date"
-            className="block text-xs font-semibold uppercase tracking-wider text-slate-400"
+            className="block text-xs font-semibold uppercase tracking-wider text-[#7070a0]"
           >
             Date
           </label>
           <div className="relative group">
-            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-500 group-focus-within:text-blue-400">
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#4a4a6a] group-focus-within:text-violet-400">
               <Calendar size={18} />
             </div>
             <input
@@ -145,19 +145,19 @@ export default function EventForm({ onResult }: EventFormProps) {
               value={form.date}
               onChange={handleChange}
               required
-              className="w-full bg-slate-950/50 border border-white/10 rounded-xl py-3 pl-11 pr-4 text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500/40 transition-all scheme-dark [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-80 hover:[&::-webkit-calendar-picker-indicator]:opacity-100"
+              className="w-full bg-[#080812]/60 border border-white/8 rounded-xl py-3 pl-11 pr-4 text-[#d0ccf0] focus:outline-none focus:ring-2 focus:ring-violet-500/35 focus:border-violet-500/40 transition-all scheme-dark [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-70 hover:[&::-webkit-calendar-picker-indicator]:opacity-100"
             />
           </div>
         </div>
         <div className="space-y-1.5">
           <label
             htmlFor="start_time"
-            className="block text-xs font-semibold uppercase tracking-wider text-slate-400"
+            className="block text-xs font-semibold uppercase tracking-wider text-[#7070a0]"
           >
             Start Time
           </label>
           <div className="relative group">
-            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-500 group-focus-within:text-blue-400">
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#4a4a6a] group-focus-within:text-violet-400">
               <Clock size={18} />
             </div>
             <input
@@ -167,19 +167,19 @@ export default function EventForm({ onResult }: EventFormProps) {
               value={form.start_time}
               onChange={handleChange}
               required
-              className="w-full bg-slate-950/50 border border-white/10 rounded-xl py-3 pl-11 pr-4 text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500/40 transition-all scheme-dark [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-80 hover:[&::-webkit-calendar-picker-indicator]:opacity-100"
+              className="w-full bg-[#080812]/60 border border-white/8 rounded-xl py-3 pl-11 pr-4 text-[#d0ccf0] focus:outline-none focus:ring-2 focus:ring-violet-500/35 focus:border-violet-500/40 transition-all scheme-dark [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-70 hover:[&::-webkit-calendar-picker-indicator]:opacity-100"
             />
           </div>
         </div>
         <div className="space-y-1.5">
           <label
             htmlFor="end_time"
-            className="block text-xs font-semibold uppercase tracking-wider text-slate-400"
+            className="block text-xs font-semibold uppercase tracking-wider text-[#7070a0]"
           >
             End Time
           </label>
           <div className="relative group">
-            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-500 group-focus-within:text-blue-400">
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#4a4a6a] group-focus-within:text-violet-400">
               <Clock size={18} />
             </div>
             <input
@@ -189,7 +189,7 @@ export default function EventForm({ onResult }: EventFormProps) {
               value={form.end_time}
               onChange={handleChange}
               required
-              className="w-full bg-slate-950/50 border border-white/10 rounded-xl py-3 pl-11 pr-4 text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500/40 transition-all scheme-dark [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-80 hover:[&::-webkit-calendar-picker-indicator]:opacity-100"
+              className="w-full bg-[#080812]/60 border border-white/8 rounded-xl py-3 pl-11 pr-4 text-[#d0ccf0] focus:outline-none focus:ring-2 focus:ring-violet-500/35 focus:border-violet-500/40 transition-all scheme-dark [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-70 hover:[&::-webkit-calendar-picker-indicator]:opacity-100"
             />
           </div>
         </div>
@@ -197,7 +197,7 @@ export default function EventForm({ onResult }: EventFormProps) {
 
       {/* Venue */}
       <div className="relative group">
-        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-500 group-focus-within:text-blue-400">
+        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#4a4a6a] group-focus-within:text-violet-400">
           <MapPin size={18} />
         </div>
         <input
@@ -206,14 +206,14 @@ export default function EventForm({ onResult }: EventFormProps) {
           value={form.venue}
           onChange={handleChange}
           required
-          className="w-full bg-slate-950/50 border border-white/10 rounded-xl py-3 pl-11 pr-4 text-white placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500/40 transition-all"
+          className="w-full bg-[#080812]/60 border border-white/8 rounded-xl py-3 pl-11 pr-4 text-[#f0eeff] placeholder:text-[#4a4a6a] focus:outline-none focus:ring-2 focus:ring-violet-500/35 transition-all"
         />
       </div>
 
       {/* Organizer & Category Row */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="relative group">
-          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-500 group-focus-within:text-blue-400">
+          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#4a4a6a] group-focus-within:text-violet-400">
             <User size={18} />
           </div>
           <input
@@ -221,11 +221,11 @@ export default function EventForm({ onResult }: EventFormProps) {
             placeholder="Organizer"
             value={form.organizer}
             onChange={handleChange}
-            className="w-full bg-slate-950/50 border border-white/10 rounded-xl py-3 pl-11 pr-4 text-white placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500/40 transition-all"
+            className="w-full bg-[#080812]/60 border border-white/8 rounded-xl py-3 pl-11 pr-4 text-[#f0eeff] placeholder:text-[#4a4a6a] focus:outline-none focus:ring-2 focus:ring-violet-500/35 transition-all"
           />
         </div>
         <div className="relative group">
-          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-500 group-focus-within:text-blue-400">
+          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#4a4a6a] group-focus-within:text-violet-400">
             <Tag size={18} />
           </div>
           <input
@@ -233,7 +233,7 @@ export default function EventForm({ onResult }: EventFormProps) {
             placeholder="Category"
             value={form.category}
             onChange={handleChange}
-            className="w-full bg-slate-950/50 border border-white/10 rounded-xl py-3 pl-11 pr-4 text-white placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500/40 transition-all"
+            className="w-full bg-[#080812]/60 border border-white/8 rounded-xl py-3 pl-11 pr-4 text-[#f0eeff] placeholder:text-[#4a4a6a] focus:outline-none focus:ring-2 focus:ring-violet-500/35 transition-all"
           />
         </div>
       </div>
@@ -242,7 +242,7 @@ export default function EventForm({ onResult }: EventFormProps) {
       <button
         type="submit"
         disabled={loading}
-        className="w-full group relative flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-xl transition-all shadow-[0_0_20px_rgba(37,99,235,0.2)] disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden cursor-pointer"
+        className="w-full group relative flex items-center justify-center gap-2 bg-linear-to-r from-violet-600 to-purple-700 hover:from-violet-500 hover:to-purple-600 text-white font-bold py-4 rounded-xl transition-all shadow-[0_0_28px_rgba(139,92,246,0.3)] hover:shadow-[0_0_40px_rgba(139,92,246,0.5)] disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden cursor-pointer"
       >
         {loading ? (
           <Loader2 className="animate-spin" size={20} />

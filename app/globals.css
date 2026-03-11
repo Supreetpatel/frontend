@@ -1,15 +1,69 @@
 @import "tailwindcss";
 
-/* globals.css */
+/* ── Premium Obsidian × Violet palette ── */
+:root {
+  --accent: #7c3aed;
+  --accent-glow: rgba(124, 58, 237, 0.22);
+  --accent-soft: rgba(124, 58, 237, 0.12);
+  --gold: #f59e0b;
+  --bg-base: #04040a;
+  --bg-surface: #0b0b16;
+  --text-primary: #f0eeff;
+  --text-muted: #6e6e9a;
+  --border-default: rgba(255, 255, 255, 0.07);
+  --border-accent: rgba(124, 58, 237, 0.35);
+}
+
+/* ── Premium scrollbar ── */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #22223a transparent;
+}
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #2a2a45;
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(124, 58, 237, 0.5);
+}
+
+/* ── Shared input base ── */
 .input {
   width: 100%;
   padding: 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 0.5rem;
+  border: 1px solid var(--border-default);
+  border-radius: 0.75rem;
   outline: none;
-  transition: all 0.2s;
+  background: rgba(8, 8, 20, 0.6);
+  color: var(--text-primary);
+  transition: all 0.2s ease;
 }
 .input:focus {
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+  border-color: rgba(124, 58, 237, 0.5);
+  box-shadow:
+    0 0 0 3px var(--accent-glow),
+    0 0 20px rgba(124, 58, 237, 0.08);
+}
+
+/* ── Animations ── */
+@keyframes shimmer {
+  100% {
+    transform: translateX(200%);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
 }

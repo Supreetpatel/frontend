@@ -139,18 +139,19 @@ export default function AddEventPage() {
   }, [result]);
 
   return (
-    <div className="min-h-screen bg-[#020617] text-slate-200 selection:bg-blue-500/30 font-sans pb-20">
-      {/* Background Decor - Matches Landing Page */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] right-[-5%] w-125 h-125 bg-blue-600/5 rounded-full blur-[120px]" />
-        <div className="absolute bottom-[-10%] left-[-5%] w-100 h-100 bg-indigo-600/5 rounded-full blur-[120px]" />
+    <div className="min-h-screen bg-[#04040a] text-[#e8e4ff] selection:bg-violet-500/30 font-sans pb-20">
+      {/* Background Decor */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div className="absolute top-[-10%] right-[-5%] w-125 h-125 bg-violet-700/8 rounded-full blur-[140px]" />
+        <div className="absolute bottom-[-10%] left-[-5%] w-100 h-100 bg-fuchsia-700/8 rounded-full blur-[130px]" />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.016)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.016)_1px,transparent_1px)] bg-size-[80px_80px]" />
       </div>
 
       {/* Header / Navigation */}
-      <header className="relative z-10 max-w-5xl mx-auto px-6 pt-10 mb-12 flex items-center justify-between">
+      <header className="relative z-10 max-w-7xl mx-auto px-6 pt-10 mb-12 flex items-center justify-between">
         <Link
           href="/"
-          className="group flex items-center gap-2 text-slate-400 hover:text-white transition-colors text-sm font-medium"
+          className="group flex items-center gap-2 text-[#6e6e9a] hover:text-[#f0eeff] transition-colors text-sm font-medium"
         >
           <ChevronLeft
             size={18}
@@ -158,94 +159,125 @@ export default function AddEventPage() {
           />
           Back to Terminal
         </Link>
-        <div className="flex items-center gap-2 px-3 py-1 rounded-full border border-white/5 bg-white/5 text-slate-400 text-xs font-mono">
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/6 bg-white/4 text-[#6e6e9a] text-xs font-mono tracking-wider">
           <LayoutDashboard size={14} />
           SYSTEM_NODE: EVENT_ENTRY
         </div>
       </header>
 
-      <main className="relative z-10 max-w-3xl mx-auto px-6">
+      <main className="relative z-10 max-w-7xl mx-auto px-6">
         {/* Title Section */}
-        <div className="mb-12">
+        <div className="mb-10">
           <div className="flex items-center gap-3 mb-4">
-            <div className="p-3 bg-blue-600/20 rounded-2xl border border-blue-500/30">
-              <CalendarPlus className="text-blue-400" size={28} />
+            <div className="p-3 bg-violet-600/20 rounded-2xl border border-violet-500/30 shadow-[0_0_24px_rgba(139,92,246,0.2)]">
+              <CalendarPlus className="text-violet-400" size={28} />
             </div>
-            <h1 className="text-4xl font-bold tracking-tight text-white">
+            <h1 className="text-4xl font-black tracking-tight text-[#f0eeff]">
               Schedule New Event
             </h1>
           </div>
-          <p className="text-slate-400 text-lg">
+          <p className="text-[#6e6e9a] text-lg leading-relaxed">
             Enter your event details below. Our AI will analyze global schedules
             to detect potential synchronization conflicts.
           </p>
         </div>
 
-        {/* Form Container */}
-        <div className="bg-slate-900/40 backdrop-blur-xl border border-white/5 rounded-[2.5rem] p-8 md:p-12 shadow-2xl relative overflow-hidden">
-          {/* Subtle glow inside the card */}
-          <div className="absolute -top-24 -right-24 w-48 h-48 bg-blue-500/10 blur-3xl rounded-full" />
+        {/* Two-column layout: Form (left) + Clash Report (right) */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+          {/* LEFT — Event Form */}
+          <div className="bg-[#0b0b16]/65 backdrop-blur-xl border border-white/7 rounded-[2.5rem] p-8 md:p-10 shadow-2xl relative overflow-hidden ring-1 ring-inset ring-white/4 flex flex-col">
+            <div className="absolute -top-24 -right-24 w-48 h-48 bg-violet-500/10 blur-3xl rounded-full" />
+            <div className="relative z-10 flex-1 flex flex-col">
+              <EventForm onResult={handleResult} />
+            </div>
+          </div>
 
-          <div className="relative z-10">
-            <EventForm onResult={handleResult} />
+          {/* RIGHT — Clash Analysis Report */}
+          <div className="flex flex-col">
+            {result ? (
+              <div className="animate-in fade-in slide-in-from-right-4 duration-700 flex flex-col h-full">
+                <div className="flex items-center gap-2 mb-5 px-1">
+                  <Sparkles size={20} className="text-violet-400" />
+                  <h2 className="font-bold text-[#f0eeff] uppercase tracking-widest text-sm">
+                    Clash Analysis Report
+                  </h2>
+                </div>
+                <div className="bg-linear-to-b from-violet-900/20 to-transparent p-px rounded-4xl flex-1">
+                  <div className="bg-[#04040a] rounded-4xl overflow-hidden h-full">
+                    <ResultCard data={result} />
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="flex-1 flex flex-col items-center justify-center text-center gap-4 rounded-[2.5rem] border border-dashed border-white/8 bg-white/[0.01]">
+                <Sparkles size={32} className="text-violet-500/40" />
+                <p className="text-[#6e6e9a] text-sm max-w-[200px] leading-relaxed">
+                  Submit an event to see the clash analysis here
+                </p>
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Results Section */}
-        {result && (
-          <div className="mt-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
-            <div className="flex items-center gap-2 mb-6 px-2">
-              <Sparkles size={20} className="text-blue-400" />
-              <h2 className="font-bold text-white uppercase tracking-widest text-sm">
-                Clash Analysis Report
-              </h2>
-            </div>
-            <div className="bg-linear-to-b from-slate-800/50 to-transparent p-px rounded-4xl">
-              <div className="bg-[#020617] rounded-4xl overflow-hidden">
-                <ResultCard data={result} />
-              </div>
-            </div>
-          </div>
-        )}
-
-        <div className="mt-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
-          <div className="flex items-center gap-2 mb-6 px-2">
-            <Sparkles size={20} className="text-blue-400" />
-            <h2 className="font-bold text-white uppercase tracking-widest text-sm">
+        {/* Bottom — All Stored Events */}
+        <div className="mt-14 animate-in fade-in slide-in-from-bottom-4 duration-700">
+          <div className="flex items-center gap-2 mb-6 px-1">
+            <Sparkles size={20} className="text-violet-400" />
+            <h2 className="font-bold text-[#f0eeff] uppercase tracking-widest text-sm">
               All Stored Events
             </h2>
           </div>
 
-          <div className="bg-slate-900/40 backdrop-blur-xl border border-white/5 rounded-3xl p-5 md:p-6">
+          <div className="bg-[#0b0b16]/65 backdrop-blur-xl border border-white/7 rounded-3xl p-5 md:p-6 ring-1 ring-inset ring-white/3">
             {events.length === 0 ? (
-              <p className="text-slate-400 text-sm">No events stored yet.</p>
+              <p className="text-[#6e6e9a] text-sm">No events stored yet.</p>
             ) : (
-              <div className="grid gap-3">
-                {events.map((event) => (
-                  <div
-                    key={event.id}
-                    className="rounded-xl border border-white/10 bg-slate-950/40 px-4 py-3"
-                  >
-                    <div className="flex items-center justify-between gap-3">
-                      <h3 className="text-white font-semibold">{event.name}</h3>
-                      <span className="text-xs font-semibold text-blue-300 bg-blue-500/10 border border-blue-500/20 px-2 py-1 rounded-md">
-                        Clash: {clashPercentageByEventId.get(event.id) ?? 0}%
-                      </span>
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
+                {events.map((event) => {
+                  const clashPct = clashPercentageByEventId.get(event.id) ?? 0;
+                  const hasClash = clashPct > 0;
+                  return (
+                    <div
+                      key={event.id}
+                      className={`rounded-xl border px-4 py-3 transition-colors ${
+                        hasClash
+                          ? "border-red-500/40 bg-red-950/30"
+                          : "border-white/10 bg-slate-950/40"
+                      }`}
+                    >
+                      <div className="flex items-center justify-between gap-3">
+                        <h3
+                          className={`font-semibold truncate ${hasClash ? "text-red-200" : "text-white"}`}
+                        >
+                          {event.name}
+                        </h3>
+                        <span
+                          className={`shrink-0 text-xs font-semibold px-2 py-1 rounded-md border ${
+                            hasClash
+                              ? "text-red-300 bg-red-500/15 border-red-500/30"
+                              : "text-violet-300 bg-violet-500/10 border-violet-500/20"
+                          }`}
+                        >
+                          Clash: {clashPct}%
+                        </span>
+                      </div>
+                      <div
+                        className={`mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs ${hasClash ? "text-red-300/70" : "text-slate-400"}`}
+                      >
+                        <span className="flex items-center gap-1.5">
+                          <Calendar size={13} /> {event.date}
+                        </span>
+                        <span className="flex items-center gap-1.5">
+                          <Clock size={13} /> {event.start_time} –{" "}
+                          {event.end_time}
+                        </span>
+                        <span className="flex items-center gap-1.5">
+                          <MapPin size={13} /> {event.venue}
+                        </span>
+                      </div>
                     </div>
-                    <div className="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-sm text-slate-400">
-                      <span className="flex items-center gap-1.5">
-                        <Calendar size={14} /> {event.date}
-                      </span>
-                      <span className="flex items-center gap-1.5">
-                        <Clock size={14} /> {event.start_time} -{" "}
-                        {event.end_time}
-                      </span>
-                      <span className="flex items-center gap-1.5">
-                        <MapPin size={14} /> {event.venue}
-                      </span>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             )}
           </div>
